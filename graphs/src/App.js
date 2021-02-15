@@ -4,21 +4,23 @@ import Graph from './utils/Graph';
 
 const App = () => {
   const [fieldSelected, setFieldSelected] = useState(null);
-  const graph = new Graph(8,8);
+  const [color, setColor] = useState(null);
 
+  const graph = new Graph(8,8);
+  useEffect(()=>{
+    graph.addNode();
+    graph.addNeighbor();
+  });
   const renderTable = (column) => {
     return [0,1, 2, 3, 4, 5, 6, 7].map((row) => (
       <div
-        className={
-          fieldSelected !== row.toString() + column.toString()
-            ? "field"
-            : "fieldSelected"
-        }
+      style={{backgroundColor: graph.nodes.get(`${column},${row}`)?.getColor()}}
+        className={ "field" }
         onClick={() => {
-          setFieldSelected(row.toString() + column.toString());
-          console.log(column, row);
+          setFieldSelected(`${column},${row}`);
+          graph.bfs(`${column},${row}`);
         }}
-        key={column.toString() + row.toString() }
+        key={`${column},${row}`}
       ></div>
     ));
   };
@@ -36,15 +38,6 @@ const App = () => {
         <div className="cross">{renderTable(6)}</div>
         <div className="cross">{renderTable(7)}</div>
       </section>
-      <div
-      style={{backgroundColor: "#000", width: "50px", height:"50px"}}
-        
-        onClick={() => {
-          graph.addNode();
-          graph.addNeighbor();
-        }}
-        
-      ></div>
     </>
   );
 };

@@ -1,10 +1,12 @@
 export default class Node {
-    constructor(position) {
-        this.position = position;
-        this.isSelected = false;
-        this.selectedColor = null;
-    }
-    addNeighbor(){
-        this.neighbor.set(this.position, []);
-    }
+  constructor(position) {
+    this.position = position;
+    this.color = "rgb(126, 199, 241)";
+  }
+  setColor(color) {
+    this.color = color;
+  }
+  getColor() {
+    return this.color;
+  }
 }
