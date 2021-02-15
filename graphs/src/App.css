@@ -14,3 +14,11 @@
   width: 75px;
   height: 75px;
 }
+
+.fieldSelected{
+  background-color: rgb(228, 126, 241);
+  border-color: #f00;
+  border-style:solid;
+  width: 75px;
+  height: 75px;
+}
