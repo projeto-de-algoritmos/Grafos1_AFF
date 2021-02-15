@@ -41,6 +41,7 @@ const App = () => {
         
         onClick={() => {
           graph.addNode();
+          graph.addNeighbor();
         }}
         
       ></div>
@@ -49,3 +50,4 @@ const App = () => {
 };
 
 export default App;
+

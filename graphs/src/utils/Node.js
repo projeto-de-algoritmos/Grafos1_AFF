@@ -4,4 +4,7 @@ export default class Node {
         this.isSelected = false;
         this.selectedColor = null;
     }
+    addNeighbor(){
+        this.neighbor.set(this.position, []);
+    }
 }
