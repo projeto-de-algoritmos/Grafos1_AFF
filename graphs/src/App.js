@@ -11,11 +11,14 @@ const App = () => {
     graph.addNode();
     graph.addNeighbor();
   });
+
+
   const renderTable = (column) => {
     return [0,1, 2, 3, 4, 5, 6, 7].map((row) => (
       <div
       style={{backgroundColor: graph.nodes.get(`${column},${row}`)?.getColor()}}
         className={ "field" }
+        id={`t${column},${row}`}
         onClick={() => {
           setFieldSelected(`${column},${row}`);
           graph.bfs(`${column},${row}`);
