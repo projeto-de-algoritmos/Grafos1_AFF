@@ -12,6 +12,9 @@ const App = () => {
     graph.addNeighbor();
   });
 
+  const getRandomArbitrary = (min, max) => {
+    return Math.floor(Math.random() * (max - min) + min);
+  }
 
   const renderTable = (column) => {
     return [0,1, 2, 3, 4, 5, 6, 7].map((row) => (
@@ -21,8 +24,10 @@ const App = () => {
         id={`t${column},${row}`}
         onClick={() => {
           setFieldSelected(`${column},${row}`);
-          graph.dfsR(`${column},${row}`, '#ff0');
-          graph.dfsR(`7,7`, '#000');
+          graph.bfs(`${column},${row}`, '#ff0');
+          graph.bfs(`7,7`, '#000');
+          
+          // graph.bfs(`${getRandomArbitrary(0,7)},${getRandomArbitrary(0,7)}`, '#000');
         }}
         key={`${column},${row}`}
       ></div>

@@ -39,24 +39,24 @@ export default class Graph {
       }
   }
 
-  async bfs(start) {
+  async bfs(start, color) {
     const visited = new Set();
     const queue = [start];
     visited.add(start);
-    this.nodes.get(start).setColor("#ff0");
-    const myDiv = document.getElementById('t'+this.nodes.get(start).position);
-    myDiv.style.backgroundColor = "#ff0";
+    if(!this.nodes.get(start).isSelected){
+      this.nodes.get(start).setColor(color);
+      this.nodes.get(start).isSelected = true;
+    }
 
     while (queue.length > 0) {
       const edges = queue.shift();
       const neighbors = this.neighbor.get(edges);
       for (const neighbor of neighbors) {
-        if (!visited.has(neighbor)) {
+        if (!visited.has(neighbor) && !this.nodes.get(neighbor).isSelected) {
           await this.timeout(300);
             visited.add(neighbor);
-            this.nodes.get(neighbor)?.setColor("#ff0");
-            const myDiv = document.getElementById('t'+this.nodes.get(neighbor).position);
-            myDiv.style.backgroundColor = "#ff0";
+            this.nodes.get(neighbor).setColor(color);
+            this.nodes.get(neighbor).isSelected = true;
             queue.push(neighbor);
         }
       }
@@ -70,19 +70,12 @@ export default class Graph {
     if(!this.nodes.get(start).isSelected){
       this.nodes.get(start).isSelected = true;
       this.nodes.get(start).setColor(color);
-      const myDiv = document.getElementById('t'+this.nodes.get(start).position);
-      myDiv.style.backgroundColor = color;
     }
     const neighbors = this.neighbor.get(start);
     for (const neighbor of neighbors) {
-      if(neighbor=='0,7')
-        console.log('a');
       if (!visited.has(neighbor) && !this.nodes.get(neighbor).isSelected) {
-          console.log(`${start}: ${neighbor}`);
-          this.nodes.get(start).setColor(color);
-          const myDiv = document.getElementById('t'+this.nodes.get(start).position);
-          myDiv.style.backgroundColor = color;
-          
+        this.nodes.get(neighbor).isSelected = true;
+        this.nodes.get(neighbor).setColor(color);
           await this.dfsR(neighbor,  color, visited,);
         }
     }

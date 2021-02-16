@@ -8,15 +8,9 @@
 }
 
 .field{
-  border-color: #f00;
+  border-color: rgb(4, 6, 97);
   border-style:solid;
   width: 75px;
   height: 75px;
-}
-
-.fieldSelected{
-  border-color: #f00;
-  border-style:solid;
-  width: 75px;
-  height: 75px;
+  background-color: rgb(126, 199, 241);
 }

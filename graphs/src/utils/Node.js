@@ -5,7 +5,11 @@ export default class Node {
     this.isSelected = false;
   }
   setColor(color) {
-    this.color = color;
+    if(this.color==="rgb(126, 199, 241)"){
+      this.color = color;
+      const myDiv = document.getElementById('t'+this.position);
+      myDiv.style.backgroundColor = color;
+    }
   }
   getColor() {
     return this.color;
