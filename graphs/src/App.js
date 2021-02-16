@@ -21,7 +21,7 @@ const App = () => {
         id={`t${column},${row}`}
         onClick={() => {
           setFieldSelected(`${column},${row}`);
-          graph.bfs(`${column},${row}`);
+          graph.dfsR(`${column},${row}`);
         }}
         key={`${column},${row}`}
       ></div>

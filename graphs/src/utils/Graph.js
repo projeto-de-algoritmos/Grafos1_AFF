@@ -37,13 +37,12 @@ export default class Graph {
 
         this.neighbor.set(`${i},${j}`, neighbor);
       }
+      console.log(this.neighbor);
   }
 
   async bfs(start) {
     const visited = new Set();
-
     const queue = [start];
-
     visited.add(start);
     this.nodes.get(start)?.setColor("#ff0");
     const myDiv = document.getElementById('t'+this.nodes.get(start).position);
@@ -51,9 +50,7 @@ export default class Graph {
 
     while (queue.length > 0) {
       const edges = queue.shift();
-
       const neighbors = this.neighbor.get(edges);
-      
       for (const neighbor of neighbors) {
         if (!visited.has(neighbor)) {
           await this.timeout(300);
@@ -67,4 +64,47 @@ export default class Graph {
       }
     }
   }
+
+  // async dfs(start) {
+  //   const visited = new Set();
+  //   const stack = [start];
+  //   visited.add(start);
+  //   this.nodes.get(start)?.setColor("#ff0");
+  //   const myDiv = document.getElementById('t'+this.nodes.get(start).position);
+  //   myDiv.style.backgroundColor = "#ff0";
+
+  //   while (stack.length > 0) {
+  //     const edges = stack.pop();
+  //     const neighbors = this.neighbor.get(edges);
+  //     console.log(visited);
+  //     for (const neighbor of neighbors) {
+  //       if (!visited.has(neighbor)) {
+  //         await this.timeout(300);
+  //           visited.add(neighbor);
+  //           this.nodes.get(neighbor)?.setColor("#ff0");
+  //           const myDiv = document.getElementById('t'+this.nodes.get(neighbor).position);
+  //           myDiv.style.backgroundColor = "#ff0";
+  //           stack.push(neighbor);
+          
+  //       }
+  //     }
+  //   }
+  // }
+
+  async dfsR(start, visited = new Set()) {
+    visited.add(start);
+    const neighbors = this.neighbor.get(start);
+    for (const neighbor of neighbors) {
+      if (!visited.has(neighbor)) {
+          console.log(`${start}: ${neighbor}`);
+          this.nodes.get(start).setColor("#ff0");
+          const myDiv = document.getElementById('t'+this.nodes.get(start).position);
+          myDiv.style.backgroundColor = "#ff0";
+          
+          await this.dfsR(neighbor, visited);
+        }
+    }
+}
+
+ 
 }
