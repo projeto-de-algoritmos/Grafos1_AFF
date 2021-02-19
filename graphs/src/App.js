@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
-import "./App.css";
 import Graph from "./utils/Graph";
+// import { Button, Box } from "@chakra-ui/react"
+import "./App.css";
+import { useHistory } from "react-router-dom";
+
 
 const App = () => {
+  const history = useHistory();
   const [startGame, setStartGame] = useState(false);
   const [searchType, setSearchType] = useState(false);
   const [searchTypePC, setSearchTypePC] = useState(false);
@@ -24,6 +28,10 @@ const App = () => {
     graph.nodes.get(initialPosition).isSelected = true;
     graph.nodes.get(initialPosition).setColor("#000");
   }, []);
+
+  useEffect(()=>{
+    console.log(graph.totalPlayer);
+  },[graph.totalPlayer])
 
   const renderTable = (column) => {
     return [0, 1, 2, 3, 4, 5, 6, 7].map((row) => (
@@ -83,6 +91,11 @@ const App = () => {
         }}
       >
         Reset
+      </button>
+      <button
+        onClick={() => history.push('/')}
+      >
+        New options
       </button>
     </>
   );

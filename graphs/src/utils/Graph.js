@@ -5,7 +5,8 @@ export default class Graph {
     this.column = column;
     this.row = row;
     this.neighbor = new Map();
-    this.total = 0;
+    this.totalPlayer = 0;
+    this.totalPC = 0;
   }
   timeout(delay) {
     return new Promise((res) => setTimeout(res, delay));
@@ -50,6 +51,10 @@ export default class Graph {
           await this.timeout(300);
           visited.add(neighbor);
           if (this.nodes.get(neighbor).setColor(color)) {
+            if (this.nodes.get(neighbor).getColor() === "#ff0")
+              this.totalPlayer++;
+            else this.totalPC++;
+
             this.nodes.get(neighbor).isSelected = true;
             queue.push(neighbor);
           }
@@ -69,7 +74,10 @@ export default class Graph {
     for (const neighbor of neighbors) {
       if (!visited.has(neighbor) && !this.nodes.get(neighbor).isSelected) {
         this.nodes.get(neighbor).isSelected = true;
-        if (this.nodes.get(neighbor).setColor(color)) 
+        if (this.nodes.get(neighbor).getColor() === "#ff0") this.totalPlayer++;
+        else this.totalPC++;
+
+        if (this.nodes.get(neighbor).setColor(color))
           await this.dfsR(neighbor, color, visited);
       }
     }
