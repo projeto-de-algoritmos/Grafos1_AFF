@@ -14,3 +14,16 @@
   height: 75px;
   background-color: rgb(126, 199, 241);
 }
+
+.field:hover{
+  background-color: #ff0;
+  cursor: pointer;
+}
+
+.filed:selection{
+  background-color: #ff0;
+}
+
+.main{
+  display: flex;
+}
