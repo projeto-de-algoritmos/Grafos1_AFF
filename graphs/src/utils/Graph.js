@@ -5,9 +5,8 @@ export default class Graph {
     this.column = column;
     this.row = row;
     this.neighbor = new Map();
-    this.totalPlayer = 0;
-    this.totalPC = 0;
   }
+
   timeout(delay) {
     return new Promise((res) => setTimeout(res, delay));
   }
@@ -35,6 +34,7 @@ export default class Graph {
   }
 
   async bfs(start, color) {
+    console.log('BFS');
     const visited = new Set();
     const queue = [start];
     visited.add(start);
@@ -51,9 +51,7 @@ export default class Graph {
           await this.timeout(300);
           visited.add(neighbor);
           if (this.nodes.get(neighbor).setColor(color)) {
-            if (this.nodes.get(neighbor).getColor() === "#ff0")
-              this.totalPlayer++;
-            else this.totalPC++;
+ 
 
             this.nodes.get(neighbor).isSelected = true;
             queue.push(neighbor);
@@ -63,7 +61,8 @@ export default class Graph {
     }
   }
 
-  async dfsR(start, color, visited = new Set()) {
+  async dfs(start, color, visited = new Set()) {
+    console.log('DFS');
     visited.add(start);
     await this.timeout(300);
     if (!this.nodes.get(start).isSelected) {
@@ -78,7 +77,7 @@ export default class Graph {
         else this.totalPC++;
 
         if (this.nodes.get(neighbor).setColor(color))
-          await this.dfsR(neighbor, color, visited);
+          await this.dfs(neighbor, color, visited);
       }
     }
   }

@@ -1,103 +1,135 @@
 import React, { useEffect, useState } from "react";
 import Graph from "./utils/Graph";
-// import { Button, Box } from "@chakra-ui/react"
+import {
+  ChakraProvider,
+  Button,
+  Box,
+  Text,
+  HStack,
+  VStack,
+  Switch,
+} from "@chakra-ui/react";
 import "./App.css";
-import { useHistory } from "react-router-dom";
-
 
 const App = () => {
-  const history = useHistory();
+  const [playerOption, setPlayerOption] = useState(false);
+  const [pcOption, setPcOption] = useState(false);
   const [startGame, setStartGame] = useState(false);
-  const [searchType, setSearchType] = useState(false);
-  const [searchTypePC, setSearchTypePC] = useState(false);
+  const [initialPosition, setInitialPosition] = useState("0,0");
 
   const getRandomArbitrary = (min, max) => {
     return Math.floor(Math.random() * (max - min) + min);
   };
 
-  let initialPosition;
-
-  const graph = new Graph(8, 8);
-
   useEffect(() => {
-    graph.addNode();
-    graph.addNeighbor();
     const valueRow = getRandomArbitrary(0, 7);
     const valueColumn = getRandomArbitrary(0, 7);
-    initialPosition = valueRow + "," + valueColumn;
-    graph.nodes.get(initialPosition).isSelected = true;
-    graph.nodes.get(initialPosition).setColor("#000");
+    setInitialPosition(valueRow + "," + valueColumn);
   }, []);
 
-  useEffect(()=>{
-    console.log(graph.totalPlayer);
-  },[graph.totalPlayer])
-
-  const renderTable = (column) => {
-    return [0, 1, 2, 3, 4, 5, 6, 7].map((row) => (
-      <div
+  const renderColumn = (row, graph, initialPosition) => {
+    return [0, 1, 2, 3, 4, 5, 6, 7].map((column) => (
+      <Box
+        border="1px"
         style={{
           backgroundColor: graph.nodes.get(`${column},${row}`)?.getColor(),
         }}
         className={"field"}
         id={`t${column},${row}`}
-        onClick={() => {
+        onClick={async () => {
           if (!startGame && `${column},${row}` !== initialPosition) {
             setStartGame(true);
-              graph.bfs(`${column},${row}`, "#ff0");
-              graph.bfs(initialPosition, "#000");
+            if (playerOption) graph.dfs(`${column},${row}`, "#ff0");
+            else graph.bfs(`${column},${row}`, "#ff0");
+            if (pcOption) graph.dfs(initialPosition, "#000");
+            else graph.bfs(initialPosition, "#000");
           }
         }}
         key={`${column},${row}`}
-      ></div>
+      ></Box>
+    ));
+  };
+
+  const renderTable = () => {
+    const graph = new Graph(8, 8);
+
+    graph.addNode();
+    graph.addNeighbor();
+
+    graph.nodes.get(initialPosition).isSelected = true;
+    graph.nodes.get(initialPosition).setColor("#000");
+
+    return [0, 1, 2, 3, 4, 5, 6, 7].map((column, index) => (
+      <Box className="cross" key={index}>
+        {renderColumn(column, graph, initialPosition)}
+      </Box>
     ));
   };
 
   return (
-    <>
-      <h1>FFF (Flood F*cking Fill :P )</h1>
-      <div className="main">
-        <section className="board">
-          <div className="cross">{renderTable(0)}</div>
-          <div className="cross">{renderTable(1)}</div>
-          <div className="cross">{renderTable(2)}</div>
-          <div className="cross">{renderTable(3)}</div>
-          <div className="cross">{renderTable(4)}</div>
-          <div className="cross">{renderTable(5)}</div>
-          <div className="cross">{renderTable(6)}</div>
-          <div className="cross">{renderTable(7)}</div>
-        </section>
+    <ChakraProvider>
+      <Text fontSize="3xl" align="center" mb="1%">
+        FFF (Flood F*cking Fill :P )
+      </Text>
+      <VStack>
+        <Box d="flex" flexDirection="column">
+          <VStack d="flex" flexDirection="column" alignSelf="center" mb="10%">
+            <Text alignSelf="center">Player</Text>
+            <HStack d="flex">
+              <Text>BFS</Text>
+              <Switch
+                isDisabled={startGame}
+                mx="10px"
+                onChange={(e) => {
+                  setPlayerOption(e.target.checked);
+                }}
+              />
+              <Text>DFS</Text>
+            </HStack>
+            <Text alignSelf="center">PC</Text>
+            <HStack d="flex">
+              <Text>BFS</Text>
+              <Switch
+                isDisabled={startGame}
+                mx="10px"
+                onChange={(e) => {
+                  setPcOption(e.target.checked);
+                }}
+              />
+              <Text>DFS</Text>
+            </HStack>
+          </VStack>
+        </Box>
+      </VStack>
 
-        <section className="instructions">
-          <p>
+      <VStack className="main">
+        <Box className="board" mb="1%">{renderTable()}</Box>
+
+        <Box className="instructions">
+          <Text>
             {" "}
             Bem vindo ao FFF, o objetivo do jogo é você preencher mais quadrados
             que seu oponente, para preencher basta clicar no quadrado onde você
             quer iniciar o preenchimento e deixar o algoritmo fazer o resto.{" "}
-          </p>
-          <p>
+          </Text>
+          <Text>
             {" "}
             Você pode escolher 2 tipos de preenchimentos diferentes, sendo o
-            primeiro <i>Preenchimento linear</i>
+            primeiro <i>Preenchimento linear </i>
             onde será preenchido linha por linha e o segundo o{" "}
             <i>Preenchimento por camadas</i> onde será preenchido pontos em
             volta da seleção inicial
-          </p>
-        </section>
-      </div>
-      <button
-        onClick={() => {
-          window.location.reload();
-        }}
-      >
-        Reset
-      </button>
-      <button
-        onClick={() => history.push('/')}
-      >
-        New options
-      </button>
-    </>
+          </Text>
+        </Box>
+        <Button
+          onClick={() => {
+            window.location.reload();
+          }}
+        >
+          Reset
+        </Button>
+      </VStack>
+    </ChakraProvider>
   );
 };
 
