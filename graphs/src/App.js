@@ -16,10 +16,14 @@ const App = () => {
   const [pcOption, setPcOption] = useState(false);
   const [startGame, setStartGame] = useState(false);
   const [initialPosition, setInitialPosition] = useState("0,0");
+  const [counter, setCounter] = useState(0);
+  const [counterPC, setCounterPC] = useState(0);
 
   const getRandomArbitrary = (min, max) => {
     return Math.floor(Math.random() * (max - min) + min);
   };
+
+  useEffect(() => {}, []);
 
   useEffect(() => {
     const valueRow = getRandomArbitrary(0, 7);
@@ -28,6 +32,7 @@ const App = () => {
   }, []);
 
   const renderColumn = (row, graph, initialPosition) => {
+    console.log("->", graph.counter);
     return [0, 1, 2, 3, 4, 5, 6, 7].map((column) => (
       <Box
         border="1px"
@@ -39,8 +44,16 @@ const App = () => {
         onClick={async () => {
           if (!startGame && `${column},${row}` !== initialPosition) {
             setStartGame(true);
-            if (playerOption) graph.dfs(`${column},${row}`, "#ff0");
-            else graph.bfs(`${column},${row}`, "#ff0");
+            if (playerOption)
+              graph.dfs(`${column},${row}`, "#ff0").then((e) => {
+                setCounter(e);
+                setCounterPC(64 - e);
+              });
+            else
+              graph.bfs(`${column},${row}`, "#ff0").then((e) => {
+                setCounter(e);
+                setCounterPC(64 - e);
+              });
             if (pcOption) graph.dfs(initialPosition, "#000");
             else graph.bfs(initialPosition, "#000");
           }
@@ -72,8 +85,14 @@ const App = () => {
         FFF (Flood F*cking Fill :P )
       </Text>
       <VStack>
-        <Box d="flex" flexDirection="column">
-          <VStack d="flex" flexDirection="column" alignSelf="center" mb="10%">
+        <HStack>
+          <VStack
+            d="flex"
+            flexDirection="column"
+            alignSelf="center"
+            mb="10%"
+            mr="5%"
+          >
             <Text alignSelf="center">Player</Text>
             <HStack d="flex">
               <Text>BFS</Text>
@@ -86,6 +105,15 @@ const App = () => {
               />
               <Text>DFS</Text>
             </HStack>
+            <Text>Player: {counter}</Text>
+          </VStack>
+          <VStack
+            d="flex"
+            flexDirection="column"
+            alignSelf="center"
+            mb="10%"
+            ml="5%"
+          >
             <Text alignSelf="center">PC</Text>
             <HStack d="flex">
               <Text>BFS</Text>
@@ -98,12 +126,15 @@ const App = () => {
               />
               <Text>DFS</Text>
             </HStack>
+            <Text>PC: {counterPC}</Text>
           </VStack>
-        </Box>
+        </HStack>
       </VStack>
 
       <VStack className="main">
-        <Box className="board" mb="1%">{renderTable()}</Box>
+        <Box className="board" mb="1%">
+          {renderTable()}
+        </Box>
 
         <Box className="instructions">
           <Text>

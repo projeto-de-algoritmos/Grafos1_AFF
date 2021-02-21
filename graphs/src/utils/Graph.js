@@ -5,6 +5,7 @@ export default class Graph {
     this.column = column;
     this.row = row;
     this.neighbor = new Map();
+    this.counter = 1;
   }
 
   timeout(delay) {
@@ -34,7 +35,7 @@ export default class Graph {
   }
 
   async bfs(start, color) {
-    console.log('BFS');
+    console.log("BFS");
     const visited = new Set();
     const queue = [start];
     visited.add(start);
@@ -51,18 +52,18 @@ export default class Graph {
           await this.timeout(300);
           visited.add(neighbor);
           if (this.nodes.get(neighbor).setColor(color)) {
- 
-
+            if (this.nodes.get(neighbor).getColor() === "#ff0") this.counter++;
             this.nodes.get(neighbor).isSelected = true;
             queue.push(neighbor);
           }
         }
       }
     }
+    return this.counter;
   }
 
   async dfs(start, color, visited = new Set()) {
-    console.log('DFS');
+    console.log("DFS");
     visited.add(start);
     await this.timeout(300);
     if (!this.nodes.get(start).isSelected) {
@@ -73,12 +74,11 @@ export default class Graph {
     for (const neighbor of neighbors) {
       if (!visited.has(neighbor) && !this.nodes.get(neighbor).isSelected) {
         this.nodes.get(neighbor).isSelected = true;
-        if (this.nodes.get(neighbor).getColor() === "#ff0") this.totalPlayer++;
-        else this.totalPC++;
-
+        if (this.nodes.get(neighbor).getColor() === "#ff0") this.counter++;
         if (this.nodes.get(neighbor).setColor(color))
           await this.dfs(neighbor, color, visited);
       }
     }
+    return this.counter;
   }
 }
