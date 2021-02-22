@@ -81,41 +81,8 @@ const App = () => {
         <HStack>
         <VStack className="left-box">
           <Text className="main-title">
-          F*cking Flood Fill (FFF)
+          Awesome Flood Fill (AFF)
           </Text>
-          <VStack className="options-container">
-            <Text className="card-title">Opções</Text>
-            <VStack className="options-items">
-            <Text className="options-font">Player</Text>
-            <HStack>
-              <Text>BFS</Text>
-              <Switch
-                isDisabled={startGame}
-                mx="0.8rem"
-                size="lg"
-                onChange={(e) => {
-                  setPlayerOption(e.target.checked);
-                }}
-              />
-              <Text>DFS</Text>
-            </HStack>
-           
-            <Text className="options-font">PC</Text>
-            <HStack>
-              <Text>BFS</Text>
-              <Switch
-                isDisabled={startGame}
-                mx="0.8rem"
-                size="lg"
-                onChange={(e) => {
-                  setPcOption(e.target.checked);
-                }}
-              />
-              <Text>DFS</Text>
-            </HStack>
-            </VStack>
-           
-        </VStack>
           <VStack className="options-container">
             <Text className="card-title">Instruções</Text>
           <Text>
@@ -128,13 +95,46 @@ const App = () => {
             2. Para iniciar o jogo basta você clicar em um quadrado inicial
           </Text>
           </VStack>
+          <VStack className="options-container">
+            <Text className="card-title">Opções</Text>
+            <VStack className="options-items">
+            <Text className="options-font">Player</Text>
+            <HStack>
+              <Text>Camadas</Text>
+              <Switch
+                isDisabled={startGame}
+                mx="0.8rem"
+                size="lg"
+                onChange={(e) => {
+                  setPlayerOption(e.target.checked);
+                }}
+              />
+              <Text>Linear</Text>
+            </HStack>
+           
+            <Text className="options-font">PC</Text>
+            <HStack>
+              <Text>Camadas</Text>
+              <Switch
+                isDisabled={startGame}
+                mx="0.8rem"
+                size="lg"
+                onChange={(e) => {
+                  setPcOption(e.target.checked);
+                }}
+              />
+              <Text>Linear</Text>
+            </HStack>
+            </VStack>
+           
+        </VStack>
 
         </VStack>
 
       <VStack className="main">
           <Text className="initial-text">
             {" "}
-            Bem vindo ao FFF, o objetivo do jogo é você preencher mais quadrados
+            Bem vindo ao AFF, o objetivo do jogo é você preencher mais quadrados
             que seu oponente, para preencher basta clicar no quadrado onde você
             quer iniciar o preenchimento e deixar o algoritmo fazer o resto.{" "}
           </Text>
