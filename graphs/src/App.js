@@ -32,13 +32,9 @@ const App = () => {
   }, []);
 
   const renderColumn = (row, graph, initialPosition) => {
-    console.log("->", graph.counter);
     return [0, 1, 2, 3, 4, 5, 6, 7].map((column) => (
       <Box
         border="1px"
-        style={{
-          backgroundColor: graph.nodes.get(`${column},${row}`)?.getColor(),
-        }}
         className={"field"}
         id={`t${column},${row}`}
         onClick={async () => {
@@ -81,85 +77,94 @@ const App = () => {
 
   return (
     <ChakraProvider>
-      <Text fontSize="3xl" align="center" mb="1%">
-        FFF (Flood F*cking Fill :P )
-      </Text>
-      <VStack>
+      <VStack className="body">
         <HStack>
-          <VStack
-            d="flex"
-            flexDirection="column"
-            alignSelf="center"
-            mb="10%"
-            mr="5%"
-          >
-            <Text alignSelf="center">Player</Text>
-            <HStack d="flex">
+        <VStack className="left-box">
+          <Text className="main-title">
+          F*cking Flood Fill (FFF)
+          </Text>
+          <VStack className="options-container">
+            <Text className="card-title">Opções</Text>
+            <VStack className="options-items">
+            <Text className="options-font">Player</Text>
+            <HStack>
               <Text>BFS</Text>
               <Switch
                 isDisabled={startGame}
-                mx="10px"
+                mx="0.8rem"
+                size="lg"
                 onChange={(e) => {
                   setPlayerOption(e.target.checked);
                 }}
               />
               <Text>DFS</Text>
             </HStack>
-            <Text>Player: {counter}</Text>
-          </VStack>
-          <VStack
-            d="flex"
-            flexDirection="column"
-            alignSelf="center"
-            mb="10%"
-            ml="5%"
-          >
-            <Text alignSelf="center">PC</Text>
-            <HStack d="flex">
+           
+            <Text className="options-font">PC</Text>
+            <HStack>
               <Text>BFS</Text>
               <Switch
                 isDisabled={startGame}
-                mx="10px"
+                mx="0.8rem"
+                size="lg"
                 onChange={(e) => {
                   setPcOption(e.target.checked);
                 }}
               />
               <Text>DFS</Text>
             </HStack>
-            <Text>PC: {counterPC}</Text>
+            </VStack>
+           
+        </VStack>
+          <VStack className="options-container">
+            <Text className="card-title">Instruções</Text>
+          <Text>
+            {" "}
+            1. Você pode escolher 2 tipos de preenchimentos diferentes, sendo o
+            primeiro <i><b>Preenchimento linear</b></i>,
+            onde será preenchido linha por linha ou coluna por coluna, e o segundo o{" "}
+            <b><i>Preenchimento por camadas</i></b> onde será preenchido pontos em
+            volta da seleção inicial<br/><br/>
+            2. Para iniciar o jogo basta você clicar em um quadrado inicial
+          </Text>
           </VStack>
-        </HStack>
-      </VStack>
+
+        </VStack>
 
       <VStack className="main">
-        <Box className="board" mb="1%">
-          {renderTable()}
-        </Box>
-
-        <Box className="instructions">
-          <Text>
+          <Text className="initial-text">
             {" "}
             Bem vindo ao FFF, o objetivo do jogo é você preencher mais quadrados
             que seu oponente, para preencher basta clicar no quadrado onde você
             quer iniciar o preenchimento e deixar o algoritmo fazer o resto.{" "}
           </Text>
-          <Text>
-            {" "}
-            Você pode escolher 2 tipos de preenchimentos diferentes, sendo o
-            primeiro <i>Preenchimento linear </i>
-            onde será preenchido linha por linha e o segundo o{" "}
-            <i>Preenchimento por camadas</i> onde será preenchido pontos em
-            volta da seleção inicial
+          <VStack className="score-container">
+          <Text className="score-title">
+            Pontuação
           </Text>
+          <Box className="score">
+            <Text >Player: {counter}</Text>
+            <Text >PC: {counterPC}</Text>
+          </Box>
+          </VStack>
+        <Box className="board" mb="1%">
+          {renderTable()}
         </Box>
+
         <Button
+        className="reset-button"
+        colorScheme="green"
+        variant="solid"
           onClick={() => {
             window.location.reload();
           }}
         >
-          Reset
+          Reiniciar jogo
         </Button>
       </VStack>
+      </HStack>
+      </VStack>
+      
     </ChakraProvider>
   );
 };

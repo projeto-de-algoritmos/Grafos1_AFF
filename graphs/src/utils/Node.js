@@ -6,7 +6,7 @@ export default class Node {
   }
   setColor(color) {
     if (this.color === null) {
-      console.log(this.position);
+      // console.log(this.position);
       this.color = color;
       try {
         const myDiv = document.getElementById("t" + this.position);

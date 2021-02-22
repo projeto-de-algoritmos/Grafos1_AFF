@@ -74,11 +74,13 @@ export default class Graph {
     for (const neighbor of neighbors) {
       if (!visited.has(neighbor) && !this.nodes.get(neighbor).isSelected) {
         this.nodes.get(neighbor).isSelected = true;
-        if (this.nodes.get(neighbor).getColor() === "#ff0") this.counter++;
-        if (this.nodes.get(neighbor).setColor(color))
+        if (this.nodes.get(neighbor).setColor(color)){
+          if (this.nodes.get(neighbor).getColor() === "#ff0") this.counter++;
           await this.dfs(neighbor, color, visited);
+        }
       }
     }
+    console.log(this.counter);
     return this.counter;
   }
 }
