@@ -32,12 +32,14 @@ Para rodar o projeto basta entrar na pasta graphs e executar os seguintes comand
 
 **Utilizando yarn**
 ```
+cd graphs
 yarn install
 yarn start
 ```
 
 **Utilizando npm**
 ```
+cd graphs
 npm install
 npm start
 ```
