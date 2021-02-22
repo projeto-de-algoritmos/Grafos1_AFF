@@ -1,6 +1,6 @@
-# Grafos1_Awesome_flood_fill
+# Grafos1_AFF
 
-# Awesome Flood Fill
+# Awesome Flood Fill (AFF)
 
 **Número da Lista**: X<br>
 **Conteúdo da Disciplina**: Grafos 1<br>
